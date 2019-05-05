@@ -12,12 +12,13 @@
     <style type="text/css">
         .cart-container {
             margin-top: 50px;
-            border-top: 3px solid #ff2832;
-            border-bottom: 3px solid #ff2832;
+            border-top: 3px solid #3399CC;
+            border-bottom: 3px solid #3399CC;
         }
 
         .cart-address {
             height: 50px;
+            color: #323232;
             background: #fafafa;
         }
 
@@ -79,6 +80,18 @@
             text-align: left;
         }
 
+        .cart-empty {
+            color: #ababab;
+            font-size: 18px;
+            line-height: 100px;
+            text-align: center;
+        }
+
+        .cart-empty > a {
+            color: #3399CC;
+            text-decoration: underline;
+        }
+
         .cart-item {
             padding: 20px 0;
             border-top: 1px solid #dcdcdc;
@@ -136,6 +149,7 @@
             line-height: 28px;
             text-align: center;
             display: inline-block;
+            user-select: none;
         }
 
         .cart-count-minus,
@@ -149,8 +163,8 @@
 
         .cart-count-minus:hover,
         .cart-count-add:hover {
-            color: #ff2832;
-            background: #fff5f5;
+            color: #3399CC;
+            background: #eafffd;
         }
 
         .cart-count-num {
@@ -205,7 +219,7 @@
             margin: 10px 0 10px 50px;
             padding: 0;
             border: none;
-            background: #ff2832;
+            background: #3399CC;
             vertical-align: top;
             display: inline-block;
             outline: none !important;
@@ -216,13 +230,14 @@
         .total-pay:focus,
         .total-pay:visited {
             color: #fff;
-            background: #ff2832;
+            background: #3399CC;
             outline: none;
         }
     </style>
 </head>
 <body>
 <%@ include file="navBar.jsp" %>
+<%@ include file="searchBar.jsp" %>
 <%
     if (userID == null) {
 %>
@@ -238,13 +253,23 @@ window.location.href = "index";</script>
             <div class="cart-address">
                 <div class="address-body">
                     <div class="address-title">配送至：</div>
-                    <%
+                    <span id="addressText"><%
                         if (user != null) {
                             String address = user.getAddress();
-                            if (address == null) address = "未填写";
+                            if (address == null || address.length() == 0) address = "未填写";
                             out.println(address);
                         }
-                    %>
+                    %></span><span id="recipientText"><%
+                    if (user != null) {
+                        String recipient = user.getRecipient();
+                        if (recipient == null || recipient.length() == 0){
+                            recipient = "";
+                        }else{
+                            recipient = " - " + recipient + "收";
+                        }
+                        out.print(recipient);
+                    }
+                %></span>
                 </div>
             </div>
             <div class="cart-header">
@@ -254,7 +279,7 @@ window.location.href = "index";</script>
                 <div class="header-sum header-item">金额(元)</div>
                 <div class="header-delete header-item">操作</div>
             </div>
-            <form action="ShopServlet" method="get">
+            <form id="formOrder" action="ShopServlet" method="get">
                 <div class="cart-items">
                     <%
                         Cookie[] cookies = request.getCookies();
@@ -269,6 +294,11 @@ window.location.href = "index";</script>
                         }.getType();
                         List<CartItemBean> cart = gson.fromJson(cartStr, type);
                         double total = 0;
+                        if (cart.size() == 0) {
+                    %>
+                    <div class="cart-empty">购物车中暂无商品，快去<a href="shop">商品列表</a>看看吧！</div>
+                    <%
+                    } else {
                         for (CartItemBean item : cart) {
                     %>
                     <div class="cart-item">
@@ -282,7 +312,7 @@ window.location.href = "index";</script>
                             </p>
                         </div>
                         <div class="cart-item-price item-block">￥<span id="priceNum<% out.print(item.getId()); %>"><%
-                            out.print(item.getPrice()); %></span></div>
+                            out.print(String.format("%.2f", item.getPrice())); %></span></div>
                         <div class="cart-item-count">
                             <div class="cart-count-minus cart-count-item" data-itemid="<% out.print(item.getId()); %>">-
                             </div>
@@ -293,7 +323,8 @@ window.location.href = "index";</script>
                             <div class="cart-count-add cart-count-item" data-itemid="<% out.print(item.getId()); %>">+
                             </div>
                         </div>
-                        <div class="cart-item-sum item-block">￥<span class="sum-num" id="sumNum<% out.print(item.getId()); %>"><%
+                        <div class="cart-item-sum item-block">￥<span class="sum-num"
+                                                                     id="sumNum<% out.print(item.getId()); %>"><%
                             double sum = item.getPrice() * item.getCount();
                             out.print(String.format("%.2f", sum));
                         %></span>
@@ -312,14 +343,35 @@ window.location.href = "index";</script>
                 <div class="cart-total">
                     <div class="total-right">
                         <div class="total-title">合计：</div>
-                        <div class="total-num">￥<span id="totalNum"><% out.print(String.format("%.2f", total)); %></span></div>
+                        <div class="total-num">￥<span
+                                id="totalNum"><% out.print(String.format("%.2f", total)); %></span></div>
                         <button type="submit" name="action" value="order" class="btn total-pay">结 算</button>
                     </div>
                 </div>
+                <div id="modalPrevent" class="modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">资料未填写</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>在提交订单前，请务必前往用户资料界面完善您的地址与收件人信息，以便正常发货！</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" id="btnToUser">前往填写</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
             </form>
         </div>
     </div>
 </div>
+<%@ include file="footer.jsp" %>
 </body>
 </html>
 <script type="text/javascript">
@@ -368,14 +420,14 @@ window.location.href = "index";</script>
         changeTotal();
     }
 
-    function changeTotal(){
+    function changeTotal() {
         var total = 0;
         $(".sum-num").each(function () {
             var curStr = $(this).text();
             var curNum = parseFloat(curStr);
             total += curNum;
         });
-        $("#totalNum").text(total);
+        $("#totalNum").text(total.toFixed(2));
     }
 
     $(document).ready(function () {
@@ -419,5 +471,18 @@ window.location.href = "index";</script>
             var id = parseInt($(this).data("itemid"));
             deleteCartItem(id);
         });
+
+        $("#formOrder").submit(function () {
+            var address = $("#addressText").text();
+            var recipient = $("#recipientText").text();
+            if (address === "未填写" || recipient.length === 0) {
+                $("#modalPrevent").modal();
+                event.preventDefault();
+            }
+        });
+
+        $("#btnToUser").click(function () {
+            window.location.href = "user";
+        })
     });
 </script>

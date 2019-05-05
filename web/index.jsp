@@ -5,7 +5,7 @@
     <title>登录/注册</title>
     <style type="text/css">
         body {
-            background: #c0eadf;
+            background: #99CCFF;
         }
 
         .index-login {
@@ -15,6 +15,17 @@
             border: 1px solid #dcdcdc;
             background: #ffffff;
             box-shadow: 1px 1px 1px #dcdcdc;
+        }
+
+        .index-login>ul{
+            display: flex;
+            flex-direction: row;
+            justify-content : space-between;
+        }
+
+        .index-login>ul>li{
+            width: 49%;
+            text-align: center;
         }
 
         .index-login .tab-content {

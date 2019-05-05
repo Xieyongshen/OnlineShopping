@@ -23,7 +23,7 @@
                 productSold = product.getSold();
                 productRemains = product.getRemains();
                 out.println(productName);
-            }else{
+            } else {
         %>
         <script type="text/javascript">alert("商品不存在！");
         window.location.href = "shop";</script>
@@ -31,6 +31,134 @@
             }
         %>
     </title>
+    <style type="text/css">
+        .product-container {
+            margin-top: 50px;
+            padding: 50px 0;
+            border-top: 3px solid #3399CC;
+            border-bottom: 3px solid #3399CC;
+        }
+
+        .product-body {
+            width: 902px;
+            margin: 0 auto;
+            padding: 30px;
+            text-align: left;
+            border: 1px solid #ddd;
+            box-shadow: 1px 1px 3px #dcdcdc;
+        }
+
+        .product-img {
+            width: 300px;
+            height: 300px;
+            margin-right: 35px;
+        }
+
+        .product-info {
+            width: 500px;
+            height: 300px;
+            display: inline-block;
+            vertical-align: top;
+            position: relative;
+        }
+
+        .product-name {
+            color: #323232;
+            font-size: 24px;
+            line-height: 40px;
+            font-weight: 700;
+        }
+
+        .product-description {
+            color: #888888;
+            font-size: 14px;
+            line-height: 30px;
+        }
+
+        .product-price {
+            color: #e52222;
+            font-size: 18px;
+            line-height: 40px;
+            position: absolute;
+            bottom: 120px;
+        }
+
+        .product-price span {
+            font-size: 30px;
+        }
+
+        .product-nums {
+            position: absolute;
+            bottom: 70px;
+        }
+
+        .nums-item {
+            width: 200px;
+            font-size: 16px;
+            line-height: 40px;
+            display: inline-block;
+        }
+
+        .product-count {
+            position: absolute;
+            bottom: 0;
+        }
+
+        .product-count-item {
+            width: 52px;
+            height: 52px;
+            font-size: 20px;
+            line-height: 50px;
+            text-align: center;
+            margin: 0;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+        }
+
+        .product-count-minus,
+        .product-count-add {
+            background: #eee;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .product-count-minus:hover,
+        .product-count-add:hover {
+            color: #3399CC;
+            background: #eafffd;
+        }
+
+        .product-count-num {
+            width: 60px;
+            outline: none;
+        }
+
+        .product-btn {
+            width: 150px;
+            height: 50px;
+            color: #fff;
+            font-size: 18px;
+            line-height: 40px;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: #3399CC;
+            outline: none !important;
+            position: absolute;
+            bottom: 1px;
+            left: 200px;
+        }
+
+        .product-btn:hover,
+        .product-btn:active,
+        .product-btn:focus,
+        .product-btn:visited {
+            color: #fff;
+            background: #3399CC;
+            outline: none;
+        }
+    </style>
 </head>
 <body>
 <%@ include file="navBar.jsp" %>
@@ -94,6 +222,7 @@
         </div>
     </div>
 </div>
+<%@ include file="footer.jsp" %>
 </body>
 </html>
 <script type="text/javascript">
@@ -165,131 +294,3 @@
         })
     });
 </script>
-<style type="text/css">
-    .product-container {
-        margin-top: 50px;
-        padding: 50px 0;
-        border-top: 3px solid #ff2832;
-        border-bottom: 3px solid #ff2832;
-    }
-
-    .product-body {
-        width: 902px;
-        margin: 0 auto;
-        padding: 30px;
-        text-align: left;
-        border: 1px solid #ddd;
-        box-shadow: 1px 1px 3px #dcdcdc;
-    }
-
-    .product-img {
-        width: 300px;
-        height: 300px;
-        margin-right: 35px;
-    }
-
-    .product-info {
-        width: 500px;
-        height: 300px;
-        display: inline-block;
-        vertical-align: top;
-        position: relative;
-    }
-
-    .product-name {
-        color: #323232;
-        font-size: 24px;
-        line-height: 40px;
-        font-weight: 700;
-    }
-
-    .product-description {
-        color: #888888;
-        font-size: 14px;
-        line-height: 30px;
-    }
-
-    .product-price {
-        color: #e52222;
-        font-size: 18px;
-        line-height: 40px;
-        position: absolute;
-        bottom: 120px;
-    }
-
-    .product-price span {
-        font-size: 30px;
-    }
-
-    .product-nums {
-        position: absolute;
-        bottom: 70px;
-    }
-
-    .nums-item {
-        width: 200px;
-        font-size: 16px;
-        line-height: 40px;
-        display: inline-block;
-    }
-
-    .product-count {
-        position: absolute;
-        bottom: 0;
-    }
-
-    .product-count-item {
-        width: 52px;
-        height: 52px;
-        font-size: 20px;
-        line-height: 50px;
-        text-align: center;
-        margin: 0;
-        border: 1px solid #dcdcdc;
-        display: inline-block;
-    }
-
-    .product-count-minus,
-    .product-count-add {
-        background: #eee;
-        cursor: pointer;
-        user-select: none;
-    }
-
-    .product-count-minus:hover,
-    .product-count-add:hover {
-        color: #ff2832;
-        background: #fff5f5;
-    }
-
-    .product-count-num {
-        width: 60px;
-        outline: none;
-    }
-
-    .product-btn {
-        width: 150px;
-        height: 50px;
-        color: #fff;
-        font-size: 18px;
-        line-height: 40px;
-        text-align: center;
-        margin: 0;
-        padding: 0;
-        border: none;
-        background: #ff2832;
-        outline: none !important;
-        position: absolute;
-        bottom: 1px;
-        left: 200px;
-    }
-
-    .product-btn:hover,
-    .product-btn:active,
-    .product-btn:focus,
-    .product-btn:visited {
-        color: #fff;
-        background: #ff2832;
-        outline: none;
-    }
-</style>

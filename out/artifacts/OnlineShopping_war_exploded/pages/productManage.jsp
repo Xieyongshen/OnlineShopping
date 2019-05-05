@@ -275,6 +275,12 @@
             $("#formWithID").hide();
             $("#btnEdit").hide();
             $("#btnDelete").hide();
+            $("#productCate").val("<% out.print(categories[0].getCategoryID()); %>");
+            $("#productName").val("");
+            $("#productDesc").val("");
+            $("#productImgShow").attr("src", "");
+            $("#productPrice").val(0.01);
+            $("#productRemains").val(1);
             $("#btnAdd").show();
         });
 
@@ -330,6 +336,18 @@
 
         $("#productForm").submit(function () {
             $("#productID").attr("disabled", false);
+            if (!testProForm()) {
+                event.preventDefault();
+            }
         })
-    })
+    });
+
+    function testProForm() {
+        var name = $("#productName").val();
+        if(name == null || name.length == 0){
+            alert("商品名称不能为0！");
+            return false;
+        }
+        return true;
+    }
 </script>

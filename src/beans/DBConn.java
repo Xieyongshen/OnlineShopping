@@ -5,7 +5,7 @@ import java.sql.*;
 public class DBConn {
     private static String driver = "com.mysql.jdbc.Driver";//默认驱动程序；
     private static String jdbcurl = "jdbc:mysql://127.0.0.1:3306/";//jdbcurl
-    private static String database = "onlineshopping";//数据库或数据源
+    private static String database = "audiovisual";//数据库或数据源
     private static String userName = "root";//用户名
     private static String password = "786102508";//密码
 

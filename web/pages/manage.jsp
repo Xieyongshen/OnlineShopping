@@ -66,6 +66,7 @@
             min-height: 500px;
             margin: 0 25px;
             border: 1px solid #dcdcdc;
+            box-shadow: 0 1px 3px #d0d0d0;
         }
     </style>
 </head>
@@ -118,5 +119,19 @@ window.location.href = "index";</script>
         </div>
     </div>
 </div>
+<%@ include file="footer.jsp" %>
 </body>
 </html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).attr("title", "<%
+            String title = "商店管理 - ";
+            if(mode == 0){
+                title = title + "商品管理";
+            }else if(mode == 1){
+                title = title + "订单管理";
+            }
+            out.print(title);
+        %>");
+    })
+</script>

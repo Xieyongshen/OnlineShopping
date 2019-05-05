@@ -275,6 +275,12 @@
             $("#formWithID").hide();
             $("#btnEdit").hide();
             $("#btnDelete").hide();
+            $("#productCate").val("<% out.print(categories[0].getCategoryID()); %>");
+            $("#productName").val("");
+            $("#productDesc").val("");
+            $("#productImgShow").attr("src", "");
+            $("#productPrice").val(0.01);
+            $("#productRemains").val(1);
             $("#btnAdd").show();
         });
 

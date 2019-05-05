@@ -30,6 +30,7 @@ public class ShopServlet extends HttpServlet {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("cart")) {
                     cartStr = URLDecoder.decode(cookie.getValue(), "utf-8");
+                    break;
                 }
             }
             Gson gson = new Gson();
@@ -48,6 +49,15 @@ public class ShopServlet extends HttpServlet {
             String userID = (String) request.getSession().getAttribute("userID");
             order.setUserID(userID);
             if (createOrder(order)) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("cart")) {
+                        cookie.setValue(null);
+                        cookie.setMaxAge(0);
+                        cookie.setPath("/");
+                        response.addCookie(cookie);
+                        break;
+                    }
+                }
                 request.getSession().setAttribute("statusFlag", 3);
                 response.sendRedirect("user");
             } else {

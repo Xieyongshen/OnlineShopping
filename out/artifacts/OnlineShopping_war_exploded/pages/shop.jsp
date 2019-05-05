@@ -66,11 +66,17 @@
             position: relative;
         }
 
+        .shop-category a.active {
+            color: #3399CC;
+        }
+
         .shop-products {
             width: 1100px;
             margin: 0 auto;
             padding: 0;
-            text-align: left;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
         }
 
         .product-item {
@@ -80,7 +86,6 @@
             margin-right: 20px;
             border: 1px solid #ddd;
             box-shadow: 1px 1px 3px #dcdcdc;
-            float: left;
         }
 
         .product-img {
@@ -125,6 +130,7 @@
         }
 
         .product-empty {
+            width: 100%;
             color: #ababab;
             font-size: 30px;
             line-height: 100px;
@@ -135,6 +141,7 @@
 </head>
 <body>
 <%@ include file="navBar.jsp" %>
+<%@ include file="searchBar.jsp" %>
 <div class="page-shop">
     <div class="shop-category">
         <ul>
@@ -144,7 +151,9 @@
             <%
                 if (categories != null) {
                     for (int i = 0; i < categories.length; i++) {
-                        out.println("<a href='shop?category=" + categories[i].getCategoryID() + "'><li>" + categories[i].getName() + "</li></a>");
+                        String extraClass = "";
+                        if(curCategory == categories[i].getCategoryID()) extraClass = "active";
+                        out.println("<a href='shop?category=" + categories[i].getCategoryID() + "' class='" + extraClass + "'><li>" + categories[i].getName() + "</li></a>");
                     }
                 }
             %>
@@ -152,13 +161,15 @@
     </div>
     <div class="shop-products">
         <%
+            String searchStr = request.getParameter("searchStr");
+            if(searchStr == null) searchStr = "";
             ProductBean[] products = connShop.getProducts(curCategory);
             if (products != null) {
                 for (int i = 0; i < products.length; i++) {
-                    if(products[i].getRemains() <= 0) continue;
+                    if(products[i].getRemains() <= 0 || !products[i].getName().contains(searchStr)) continue;
                     out.println("<div class='product-item'>");
                     out.println("<a href='product?id=" + products[i].getProductID() + "' title='" + products[i].getName() + "'><img src='" + products[i].getUrl() + "' alt='商品图片' class='product-img'/></a>");
-                    out.println("<div class='product-price'>￥" + products[i].getPrice() + "</div>");
+                    out.println("<div class='product-price'>￥" + String.format("%.2f", products[i].getPrice()) + "</div>");
                     out.println("<div class='product-name'><a href='product?id=" + products[i].getProductID() + "' title='" + products[i].getName() + "'>" + products[i].getName() + "</a></div>");
                     out.println("<div class='product-sold'>已售" + products[i].getSold() + "件</div>");
                     out.println("</div>");
@@ -170,5 +181,6 @@
         %>
     </div>
 </div>
+<%@ include file="footer.jsp" %>
 </body>
 </html>
