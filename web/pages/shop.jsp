@@ -27,7 +27,7 @@
     <style type="text/css">
         .shop-category {
             height: 43px;
-            border-bottom: 3px solid #3399CC;
+            border-bottom: 3px solid #9966CC;
         }
 
         .shop-category ul {
@@ -53,7 +53,7 @@
         }
 
         .shop-category a:hover {
-            color: #3399CC;
+            color: #9966CC;
         }
 
         .shop-category a.all {
@@ -62,12 +62,12 @@
             margin-right: 17px;
             text-align: left;
             color: #ffffff;
-            background: #3399CC;
+            background: #9966CC;
             position: relative;
         }
 
         .shop-category a.active {
-            color: #3399CC;
+            color: #9966CC;
         }
 
         .shop-products {
@@ -96,7 +96,7 @@
 
         .product-price {
             height: 30px;
-            color: #ff2832;
+            color: #9966CC;
             font-size: 18px;
             line-height: 30px;
             margin-top: 10px;
@@ -119,7 +119,7 @@
         }
 
         .product-name a:hover {
-            color: #ff2832;
+            color: #9966CC;
         }
 
         .product-sold {

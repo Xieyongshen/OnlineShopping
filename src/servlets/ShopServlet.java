@@ -177,6 +177,27 @@ public class ShopServlet extends HttpServlet {
             pstmt.setString(3, orderItem.getOrderID());
             pstmt.setDouble(4, orderItem.getSum());
             pstmt.execute();
+            sellProduct(orderItem.getProductID(), orderItem.getCount());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBConn.closePstmt(pstmt);
+            DBConn.closeConnection(connection);
+        }
+    }
+
+    private void sellProduct(int productID, int count) {
+        if (productID <= 0) return;
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        String updStr = "update product set `remains`=`remains`-?, `sold`=`sold`+? where idproduct=?";
+        try {
+            connection = DBConn.getConnection();
+            pstmt = connection.prepareStatement(updStr);
+            pstmt.setInt(1, count);
+            pstmt.setInt(2, count);
+            pstmt.setInt(3, productID);
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

@@ -35,8 +35,8 @@
         .product-container {
             margin-top: 50px;
             padding: 50px 0;
-            border-top: 3px solid #3399CC;
-            border-bottom: 3px solid #3399CC;
+            border-top: 3px solid #9966CC;
+            border-bottom: 3px solid #9966CC;
         }
 
         .product-body {
@@ -76,7 +76,7 @@
         }
 
         .product-price {
-            color: #e52222;
+            color: #CC99CC;
             font-size: 18px;
             line-height: 40px;
             position: absolute;
@@ -124,8 +124,8 @@
 
         .product-count-minus:hover,
         .product-count-add:hover {
-            color: #3399CC;
-            background: #eafffd;
+            color: #9966CC;
+            background: #fde6ff;
         }
 
         .product-count-num {
@@ -143,7 +143,7 @@
             margin: 0;
             padding: 0;
             border: none;
-            background: #3399CC;
+            background: #9966CC;
             outline: none !important;
             position: absolute;
             bottom: 1px;
@@ -155,7 +155,7 @@
         .product-btn:focus,
         .product-btn:visited {
             color: #fff;
-            background: #3399CC;
+            background: #9966CC;
             outline: none;
         }
     </style>

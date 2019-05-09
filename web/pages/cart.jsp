@@ -12,8 +12,8 @@
     <style type="text/css">
         .cart-container {
             margin-top: 50px;
-            border-top: 3px solid #3399CC;
-            border-bottom: 3px solid #3399CC;
+            border-top: 3px solid #9966CC;
+            border-bottom: 3px solid #9966CC;
         }
 
         .cart-address {
@@ -88,7 +88,7 @@
         }
 
         .cart-empty > a {
-            color: #3399CC;
+            color: #9966CC;
             text-decoration: underline;
         }
 
@@ -163,8 +163,8 @@
 
         .cart-count-minus:hover,
         .cart-count-add:hover {
-            color: #3399CC;
-            background: #eafffd;
+            color: #9966CC;
+            background: #fde6ff;
         }
 
         .cart-count-num {
@@ -204,7 +204,7 @@
         }
 
         .total-num {
-            color: #ff2832;
+            color: #CC99CC;
             font-size: 20px;
             display: inline-block;
         }
@@ -219,7 +219,7 @@
             margin: 10px 0 10px 50px;
             padding: 0;
             border: none;
-            background: #3399CC;
+            background: #9966CC;
             vertical-align: top;
             display: inline-block;
             outline: none !important;
@@ -230,7 +230,7 @@
         .total-pay:focus,
         .total-pay:visited {
             color: #fff;
-            background: #3399CC;
+            background: #9966CC;
             outline: none;
         }
     </style>

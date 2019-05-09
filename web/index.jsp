@@ -5,7 +5,18 @@
     <title>登录/注册</title>
     <style type="text/css">
         body {
-            background: #99CCFF;
+            background: #CCCCFF;
+        }
+
+        .btn-primary{
+            background-color: #9966CC;
+            border-color: #9966CC;
+        }
+
+        .btn-primary:active, .btn-primary:hover,.btn-primary:focus {
+            color: #fff;
+            background-color: #663399;
+            border-color: #663399;
         }
 
         .index-login {
@@ -116,16 +127,34 @@
 </body>
 </html>
 <%
-    boolean loginError = request.getSession().getAttribute("loginErr") != null && (boolean) request.getSession().getAttribute("loginErr");
-    boolean RegisterError = request.getSession().getAttribute("regErr") != null && (boolean) request.getSession().getAttribute("regErr");
-    if (loginError) {
-        loginError = false;
-        out.println("<script type=\"text/javascript\">alert('登录失败，请重新登录');</script>");
+    //登录/注册页面错误类别：0-正常，1-密码错误，2-用户不存在，3-登录失败，4-注册用户名已存在，5-注册失败
+    int indexError = request.getSession().getAttribute("indexErr") == null ? 0 : (int)request.getSession().getAttribute("indexErr");
+    if(indexError != 0){
+        String alertMsg = "";
+        switch (indexError){
+            case 1:
+                alertMsg = "密码错误！请重新登录";
+                break;
+            case 2:
+                alertMsg = "用户不存在！";
+                break;
+            case 3:
+                alertMsg = "登录失败！请重新登录";
+                break;
+            case 4:
+                alertMsg = "注册用户名已存在！请重新输入";
+                break;
+            case 5:
+                alertMsg = "注册失败！请重新注册";
+                break;
+            default:
+                break;
+        }
+        if(alertMsg.length() > 0){
+            out.print("<script type=\"text/javascript\">alert(\"" + alertMsg + "\");</script>");
+        }
     }
-    if (RegisterError) {
-        RegisterError = false;
-        out.println("<script type=\"text/javascript\">alert('注册失败，请重新注册');</script>");
-    }
+    request.getSession().setAttribute("indexErr", 0);
 %>
 <script type="text/javascript">
     function testRegForm() {

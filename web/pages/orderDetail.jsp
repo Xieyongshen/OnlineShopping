@@ -22,7 +22,7 @@
     }
 
     .status-tab {
-        color: #3399CC;
+        color: #9966CC;
         line-height: 20px;
         margin-right: 2px;
         padding: 10px 15px;
@@ -94,7 +94,7 @@
 
     .orders-item:hover .order-head,
     .orders-item:hover .order-foot {
-        background: #daf3ff;
+        background: #CCCCFF;
     }
 
     .order-head {

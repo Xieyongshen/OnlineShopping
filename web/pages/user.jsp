@@ -54,11 +54,11 @@
         }
 
         .menu-items .active{
-            color: #3399CC;
+            color: #9966CC;
         }
 
         a.menu-choose:hover{
-            color: #3399CC;
+            color: #9966CC;
         }
 
         .user-content {

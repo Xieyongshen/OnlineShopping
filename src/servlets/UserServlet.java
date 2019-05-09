@@ -27,16 +27,26 @@ public class UserServlet extends HttpServlet {
             String password = request.getParameter("loginPassword");
             if (username == null) username = "";
             if (password == null) password = "";
-            user = getUser(username, password);
-            if (user != null) {
+            if(!testUsername(username)){
                 HttpSession session = request.getSession();
-                session.setAttribute("userID", user.getUserID());
-                session.setAttribute("username", user.getName());
-                response.sendRedirect("shop");
-            } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("loginErr", true);
+                session.setAttribute("indexErr", 2);
                 response.sendRedirect("index");
+            }else{
+                user = getUser(username, password);
+                if (user != null) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("userID", user.getUserID());
+                    session.setAttribute("username", user.getName());
+                    response.sendRedirect("shop");
+                } else if(testUsername(username)){
+                    HttpSession session = request.getSession();
+                    session.setAttribute("indexErr", 1);
+                    response.sendRedirect("index");
+                } else {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("indexErr", 3);
+                    response.sendRedirect("index");
+                }
             }
         } else if (action.equals("register")) {
             String username = request.getParameter("regUserName");
@@ -54,14 +64,18 @@ public class UserServlet extends HttpServlet {
             user.setEmail(email);
             user.setPhone(phone);
             user.setQQ(QQ);
-            if (createUser(user)) {
+            if(testUsername(username)){
+                HttpSession session = request.getSession();
+                session.setAttribute("indexErr", 4);
+                response.sendRedirect("index");
+            }else if (createUser(user)) {
                 HttpSession session = request.getSession();
                 session.setAttribute("userID", user.getUserID());
                 session.setAttribute("username", user.getName());
                 response.sendRedirect("shop");
             } else {
                 HttpSession session = request.getSession();
-                session.setAttribute("regErr", true);
+                session.setAttribute("indexErr", 5);
                 response.sendRedirect("index");
             }
         } else if (action.equals("modify")) {
@@ -96,7 +110,7 @@ public class UserServlet extends HttpServlet {
         doGet(request, response);
     }
 
-    public UserBean getUser(String username, String password) {//用户登录检测
+    private UserBean getUser(String username, String password) {//用户登录检测
         ResultSet rs = null;
         PreparedStatement pstmt = null;
         Connection connection = null;
@@ -127,11 +141,34 @@ public class UserServlet extends HttpServlet {
         return result;
     }
 
-    public boolean createUser(UserBean record) {//用户注册
+    private boolean testUsername(String username){//检测用户名
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+        Connection connection = null;
+        boolean result = false;
+        try {
+            connection = DBConn.getConnection();
+            pstmt = connection.prepareStatement("select * from user where username=?");
+            pstmt.setString(1, username);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBConn.closeResultSet(rs);
+            DBConn.closePstmt(pstmt);
+            DBConn.closeConnection(connection);
+        }
+        return result;
+    }
+
+    private boolean createUser(UserBean record) {//用户注册
         Connection connection = null;
         PreparedStatement pstmt = null;
         String insStr = "insert into user(`idUser`, `username`, `password`, `email`, `phone`, `QQ`) values (?,?,?,?,?,?);";
-        if (record == null) return false;
+        if (record == null || testUsername(record.getName())) return false;
         try {
             connection = DBConn.getConnection();
             pstmt = connection.prepareStatement(insStr);
@@ -151,7 +188,7 @@ public class UserServlet extends HttpServlet {
         return true;
     }
 
-    public boolean updateUser(UserBean user) {
+    private boolean updateUser(UserBean user) {
         Connection connection = null;
         if (user == null) return false;
         PreparedStatement pstmt = null;

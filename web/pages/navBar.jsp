@@ -6,7 +6,18 @@
     }
 
     a:hover, a:focus{
-        color: #3399CC;
+        color: #9966CC;
+    }
+
+    .btn-primary{
+        background-color: #9966CC;
+        border-color: #9966CC;
+    }
+
+    .btn-primary:active, .btn-primary:hover,.btn-primary:focus {
+        color: #fff;
+        background-color: #663399;
+        border-color: #663399;
     }
 
     .nav-container {
@@ -21,7 +32,7 @@
     }
 
     .nav-container a:hover{
-        color: #3399CC;
+        color: #9966CC;
     }
 
     .nav>li>a:focus, .nav>li>a:hover{
